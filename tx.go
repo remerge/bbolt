@@ -30,6 +30,7 @@ type Tx struct {
 	pages          map[pgid]*page
 	stats          TxStats
 	commitHandlers []func()
+	opened         time.Time
 
 	// WriteFlag specifies the flag for write-related methods like WriteTo().
 	// Tx opens the database file with the specified flag to copy the data.

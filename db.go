@@ -143,6 +143,8 @@ type DB struct {
 	batchMu sync.Mutex
 	batch   *batch
 
+	txPool *TxPool
+
 	rwlock   sync.Mutex   // Allows only one writer at a time.
 	metalock sync.Mutex   // Protects meta page access.
 	mmaplock sync.RWMutex // Protects mmap access during remapping.
@@ -326,7 +328,9 @@ func (db *DB) hasSyncedFreelist() bool {
 // mmap opens the underlying memory-mapped file and initializes the meta references.
 // minsz is the minimum size that the new mmap can be.
 func (db *DB) mmap(minsz int) error {
+	db.txPool.mmapLock()
 	db.mmaplock.Lock()
+	defer db.txPool.mmapUnlock()
 	defer db.mmaplock.Unlock()
 
 	info, err := db.file.Stat()
@@ -476,6 +480,7 @@ func (db *DB) Close() error {
 	db.metalock.Lock()
 	defer db.metalock.Unlock()
 
+	db.txPool.mmapLock()
 	db.mmaplock.Lock()
 	defer db.mmaplock.Unlock()
 
