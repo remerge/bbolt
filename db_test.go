@@ -1,4 +1,4 @@
-package bbolt_test
+package bolt_test
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 	"time"
 	"unsafe"
 
-	bolt "go.etcd.io/bbolt"
+	"github.com/remerge/bolt"
 )
 
 var statsFlag = flag.Bool("stats", false, "show performance stats")
