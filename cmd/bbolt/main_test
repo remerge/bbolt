@@ -12,7 +12,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/remerge/bolt"
+	bolt "go.etcd.io/bbolt"
 )
 
 // Ensure the "info" command can print information about a database.

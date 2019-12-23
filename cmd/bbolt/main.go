@@ -19,7 +19,7 @@ import (
 	"unicode/utf8"
 	"unsafe"
 
-	"github.com/remerge/bolt"
+	bolt "go.etcd.io/bbolt"
 )
 
 var (

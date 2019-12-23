@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/remerge/bolt
+go_import_path: go.etcd.io/bbolt
 
 sudo: false
 
