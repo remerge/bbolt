@@ -63,7 +63,7 @@ type DB struct {
 	// debugging purposes.
 	StrictMode bool
 
-	MmapCallback func()
+	MmapCallback func(bool)
 
 	// Setting the NoSync flag will cause the database to skip fsync()
 	// calls after each commit. This can be useful when bulk loading data
@@ -329,7 +329,8 @@ func (db *DB) hasSyncedFreelist() bool {
 // minsz is the minimum size that the new mmap can be.
 func (db *DB) mmap(minsz int) error {
 	if db.MmapCallback != nil {
-		db.MmapCallback()
+		db.MmapCallback(true)
+		defer db.MmapCallback(false)
 	}
 
 	db.mmaplock.Lock()
